@@ -11,6 +11,8 @@ import { counterReducer } from './state/counter/counter.reducer';
 import { BookCollectionComponent } from './book-collection/book-collection.component';
 import { BookListComponent } from './state/book-list/book-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
     return function (state, action) {
@@ -45,7 +47,8 @@ export const metaReducers = [debug];
                 strictActionTypeUniqueness: true,
             },
         }),
-        HttpClientModule
+        HttpClientModule,
+        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true })
     ],
     providers: [],
     bootstrap: [AppComponent]
