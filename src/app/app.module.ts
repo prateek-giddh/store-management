@@ -9,10 +9,12 @@ import { bookReducer } from './state/book/book.reducer';
 import { collectionReducer } from './state/collection/collection.reducer';
 import { counterReducer } from './state/counter/counter.reducer';
 import { BookCollectionComponent } from './book-collection/book-collection.component';
-import { BookListComponent } from './state/book-list/book-list.component';
+import { BookListComponent } from './book-list/book-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { BookEffects } from './state/book/book.effects';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
     return function (state, action) {
@@ -37,7 +39,6 @@ export const metaReducers = [debug];
             books: bookReducer,
             collections: collectionReducer
         }, {
-            metaReducers,
             runtimeChecks: {
                 strictStateImmutability: true,
                 strictActionImmutability: true,
@@ -48,7 +49,10 @@ export const metaReducers = [debug];
             },
         }),
         HttpClientModule,
-        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true })
+        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true }),
+        EffectsModule.forRoot([
+            BookEffects
+        ])
     ],
     providers: [],
     bootstrap: [AppComponent]

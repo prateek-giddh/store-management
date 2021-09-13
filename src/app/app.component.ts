@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { AppState } from './app.state';
-import { BooksService } from './state/book-list/books.service';
-import { addBook, removeBook } from './state/book/book.action';
-import { selectBooksSelector, selectBookCollection } from './state/book/book.selector';
-import { retrieveBooks } from './state/book/book.action';
-import { BookVM } from './state/book/book.vm';
 import { Observable } from 'rxjs';
+
+import { AppState } from './app.state';
+import { addBook, fetchAllBooks, removeBook } from './state/book/book.action';
+import { selectBookCollection, selectBooksSelector } from './state/book/book.selector';
+import { BookVM } from './state/book/book.vm';
 
 @Component({
     selector: 'app-root',
@@ -26,15 +25,10 @@ export class AppComponent implements OnInit {
     }
 
     constructor(
-        private booksService: BooksService,
         private store: Store<AppState>
     ) { }
 
     ngOnInit() {
-        this.booksService
-            .getBooks()
-            .subscribe((response: BookVM[]) => {
-                this.store.dispatch(retrieveBooks({ data: response }))
-            });
+        this.store.dispatch(fetchAllBooks());
     }
 }

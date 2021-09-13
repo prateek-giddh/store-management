@@ -4,3 +4,4 @@ import { BookActions, BookVM } from './book.vm';
 export const addBook = createAction(BookActions.AddBook, props<{bookId: string}>());
 export const removeBook = createAction(BookActions.RemoveBook, props<{bookId: string}>());
 export const retrieveBooks = createAction(BookActions.RetrieveBooks, props<{data: BookVM[]}>());
+export const fetchAllBooks = createAction(BookActions.FetchBooks);

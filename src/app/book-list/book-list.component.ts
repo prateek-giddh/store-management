@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { BookVM } from "../book/book.vm";
+import { BookVM } from "../state/book/book.vm";
 
 @Component({
     selector: 'app-book-list',
