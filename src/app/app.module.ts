@@ -15,6 +15,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { BookEffects } from './state/book/book.effects';
+import { MinimalRouterStateSerializer, routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
     return function (state, action) {
@@ -37,7 +38,8 @@ export const metaReducers = [debug];
         StoreModule.forRoot({
             count: counterReducer,
             books: bookReducer,
-            collections: collectionReducer
+            collections: collectionReducer,
+            router: routerReducer
         }, {
             runtimeChecks: {
                 strictStateImmutability: true,
@@ -52,7 +54,8 @@ export const metaReducers = [debug];
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true }),
         EffectsModule.forRoot([
             BookEffects
-        ])
+        ]),
+        StoreRouterConnectingModule.forRoot()
     ],
     providers: [],
     bootstrap: [AppComponent]
