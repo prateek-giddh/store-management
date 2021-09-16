@@ -1,24 +1,19 @@
-import { Params } from "@angular/router";
-import { getSelectors } from "@ngrx/router-store";
-import { createSelector } from "@ngrx/store";
-import { selectBooksSelector } from "../book/book.selector";
-import { BookVM } from "../book/book.vm";
+import { RouterReducerState } from '@ngrx/router-store';
+import { createSelector } from '@ngrx/store';
+import { AppState } from 'src/app/app.state';
 
-export const {
-    selectCurrentRoute,
-    selectFragment,
-    selectQueryParams,
-    selectQueryParam,
-    selectRouteParams,
-    selectRouteParam,
-    selectRouteData,
-    selectUrl
-} = getSelectors();
+import { selectBooksSelector } from '../book/book.selector';
+import { BookVM } from '../book/book.vm';
+import { RouterStateUrl } from './custom-route.serializer';
 
+export const routeParamsSelector = createSelector(
+    (state: AppState) => state.router,
+    (router: RouterReducerState<RouterStateUrl>) => router?.state
+);
 export const fetchByIdSelector = createSelector(
-    selectRouteParams,
+    routeParamsSelector,
     selectBooksSelector,
-    (router: Params, books: BookVM[]) => {
-        return books.find(book => book.id === router.id);
+    (routerState: RouterStateUrl, books: ReadonlyArray<BookVM>) => {
+        return books.find(book => book.id === routerState.params.id);
     }
 )

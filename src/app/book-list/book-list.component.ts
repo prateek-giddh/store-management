@@ -1,30 +1,31 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { AppState } from "../app.state";
-import { BookVM } from "../state/book/book.vm";
-import { selectQueryParam, selectRouteParams } from "../state/router/router.reducer";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { AppState } from '../app.state';
+import { BookVM } from '../state/book/book.vm';
+import { fetchByIdSelector } from '../state/router/router.reducer';
 
 @Component({
     selector: 'app-book-list',
     templateUrl: './book-list.component.html',
     styleUrls: ['./book-list.component.scss']
 })
-export class BookListComponent implements OnInit {
+export class BookListComponent {
     @Input() books: ReadonlyArray<BookVM | undefined> | null = [];
     @Output() add = new EventEmitter();
+
+    public currentSelectedBook$: Observable<BookVM | undefined>;
 
     constructor(
         private router: Router,
         private store: Store<AppState>
-    ) {}
-
-    navigate(book: BookVM | undefined): void {
-        console.log('Book selected: ', book);
-        this.router.navigate([`/${book?.id}`]);
+    ) {
+        this.currentSelectedBook$ = this.store.select(fetchByIdSelector);
     }
 
-    ngOnInit(): void {
-        this.store.select(selectRouteParams).subscribe(response => console.log("My response: ",response));
+    navigate(book: BookVM | undefined): void {
+        this.router.navigate([`/${book?.id}`]);
     }
 }

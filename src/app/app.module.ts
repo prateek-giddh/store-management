@@ -1,21 +1,22 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { EffectsModule } from '@ngrx/effects';
+import { routerReducer, RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { ActionReducer, StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BookCollectionComponent } from './book-collection/book-collection.component';
+import { BookListComponent } from './book-list/book-list.component';
 import { MyCounterComponent } from './my-counter/my-counter.component';
+import { BookEffects } from './state/book/book.effects';
 import { bookReducer } from './state/book/book.reducer';
 import { collectionReducer } from './state/collection/collection.reducer';
 import { counterReducer } from './state/counter/counter.reducer';
-import { BookCollectionComponent } from './book-collection/book-collection.component';
-import { BookListComponent } from './book-list/book-list.component';
-import { HttpClientModule } from '@angular/common/http';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects';
-import { BookEffects } from './state/book/book.effects';
-import { MinimalRouterStateSerializer, routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { CustomSerializer } from './state/router/custom-route.serializer';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
     return function (state, action) {
@@ -55,7 +56,9 @@ export const metaReducers = [debug];
         EffectsModule.forRoot([
             BookEffects
         ]),
-        StoreRouterConnectingModule.forRoot()
+        StoreRouterConnectingModule.forRoot({
+            serializer: CustomSerializer
+        })
     ],
     providers: [],
     bootstrap: [AppComponent]

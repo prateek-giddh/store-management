@@ -1,4 +1,9 @@
-<div class="book-item" *ngFor="let book of books" (click)="navigate(book)">
-    <p>{{book?.volumeInfo?.title}}</p><span> by {{book?.volumeInfo?.authors}}</span>
-    <button class="add-button" (click)="add.emit(book?.id)" data-test="add-button">Add to Collection</button>
+<ng-container *ngIf="!(currentSelectedBook$ | async)">
+    <div class="book-item" *ngFor="let book of books" (click)="navigate(book)">
+        <p>{{book?.volumeInfo?.title}}</p><span> by {{book?.volumeInfo?.authors}}</span>
+        <button class="add-button" (click)="add.emit(book?.id)" data-test="add-button">Add to Collection</button>
+    </div>
+</ng-container>
+<div *ngIf="(currentSelectedBook$ | async) as currentBook">
+    <p>Selected book: {{currentBook?.volumeInfo?.title}}</p>
 </div>
