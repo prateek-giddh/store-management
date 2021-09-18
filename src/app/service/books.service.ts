@@ -11,6 +11,6 @@ export class BooksService {
     constructor(private http: HttpClient) { }
 
     getBooks(): Observable<Array<BookVM>> {
-        return this.http.get<{ items: Array<BookVM> }>('https://www.googleapis.com/books/v1/volumes?maxResults=5&orderBy=relevance&q=oliver%20sacks').pipe(map(books => books.items ?? []));
+        return this.http.get<{ items: Array<BookVM> }>('https://www.googleapis.com/books/v1/volumes?maxResults=15&orderBy=relevance&q=oliver%20sacks').pipe(map(books => books.items ?? []));
     }
 }

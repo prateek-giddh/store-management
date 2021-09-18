@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { BookCollectionComponent } from './book-collection/book-collection.component';
 import { BookListComponent } from './book-list/book-list.component';
 import { MyCounterComponent } from './my-counter/my-counter.component';
+import { bookEntityReducer } from './state/book/book-entity.reducer';
 import { BookEffects } from './state/book/book.effects';
 import { bookReducer } from './state/book/book.reducer';
 import { collectionReducer } from './state/collection/collection.reducer';
@@ -39,6 +40,7 @@ export const metaReducers = [debug];
         StoreModule.forRoot({
             count: counterReducer,
             books: bookReducer,
+            booksE: bookEntityReducer,
             collections: collectionReducer,
             router: routerReducer
         }, {

@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AppState } from '../app.state';
+import { bookEntityItemsSelector, bookEntitySelector } from '../state/book/book-entity.reducer';
 import { BookVM } from '../state/book/book.vm';
 import { fetchByIdSelector } from '../state/router/router.reducer';
 
@@ -22,7 +23,10 @@ export class BookListComponent {
         private router: Router,
         private store: Store<AppState>
     ) {
-        this.currentSelectedBook$ = this.store.select(fetchByIdSelector);
+        this.currentSelectedBook$ = this.store.pipe(select(fetchByIdSelector));
+        this.store.pipe(select(bookEntitySelector)).subscribe(response => {
+            console.log(response);
+        });
     }
 
     navigate(book: BookVM | undefined): void {
