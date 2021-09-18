@@ -25,11 +25,11 @@ export class BookListComponent {
     ) {
         this.currentSelectedBook$ = this.store.pipe(select(fetchByIdSelector));
         this.store.pipe(select(bookEntitySelector)).subscribe(response => {
-            console.log(response);
+            console.log('Entity state: ', response);
         });
     }
 
     navigate(book: BookVM | undefined): void {
-        this.router.navigate([`/${book?.id}`]);
+        this.router.navigate(['details/', book?.id]);
     }
 }

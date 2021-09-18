@@ -18,6 +18,7 @@ import { bookReducer } from './state/book/book.reducer';
 import { collectionReducer } from './state/collection/collection.reducer';
 import { counterReducer } from './state/counter/counter.reducer';
 import { CustomSerializer } from './state/router/custom-route.serializer';
+import { HomeComponent } from './home/home.component';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
     return function (state, action) {
@@ -32,7 +33,8 @@ export const metaReducers = [debug];
         AppComponent,
         MyCounterComponent,
         BookListComponent,
-        BookCollectionComponent
+        BookCollectionComponent,
+        HomeComponent
     ],
     imports: [
         BrowserModule,
