@@ -1,15 +1,31 @@
 import { Component, OnInit } from '@angular/core';
+import { select } from '@ngrx/store';
+import { BooksStoreService } from './books-store.service';
 
 @Component({
-  selector: 'app-component-store',
-  templateUrl: './component-store.component.html',
-  styleUrls: ['./component-store.component.scss']
+    selector: 'app-component-store',
+    templateUrl: './component-store.component.html',
+    styleUrls: ['./component-store.component.scss'],
+    providers: [BooksStoreService]
 })
 export class ComponentStoreComponent implements OnInit {
 
-  constructor() { }
+    readonly books$ = this.booksStoreService.booksCollection$;
 
-  ngOnInit(): void {
-  }
+    constructor(
+        private booksStoreService: BooksStoreService
+    ) {
+        this.booksStoreService.loadBooks({});
+    }
+
+    ngOnInit(): void {
+        this.booksStoreService.addBooks({
+            id: 'pmpmppmpm',
+            volumeInfo: {
+                title: "Prateek Mishra",
+                authors: ["Patrick"]
+            }
+        });
+    }
 
 }

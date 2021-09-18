@@ -1,1 +1,1 @@
-<p>component-store works!</p>
+<p *ngFor="let book of books$ | async">{{ book?.volumeInfo?.title }}</p>
